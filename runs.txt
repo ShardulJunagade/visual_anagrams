@@ -1,0 +1,65 @@
+python generate.py \
+  --name flip.rabbit.duck.fish.bird \
+  --prompts "rabbit" "duck" "fish" "bird" \
+  --views identity flip \
+  --masks masks/rabbit.png masks/duck.png \
+  --num_samples 1 \
+  --num_inference_steps 50 \
+  --guidance_scale 10.0 \
+  --style "a painting of" \
+  --save_dir results/ \
+  --device cuda
+
+
+python generate.py \
+  --name flip.rabbit.duck.fish.bird \
+  --prompts "a painting of a rabbit" "a painting of a duck" "a painting of a fish" "a painting of a bird" \
+  --views identity flip \
+  --masks masks/rabbit.png masks/duck.png \
+  --num_samples 1 \
+  --num_inference_steps 50 \
+  --guidance_scale 10.0 \
+  --save_dir results/ \
+  --device cuda
+
+
+
+
+
+python region_based_copy.py \
+    --fg_masks masks/pile_mask.png masks/pile_top_mask.png \
+    --fg_prompts "a river" "a cloud" \
+    --anagram_prompts "tree" "roots" \
+    --transforms rot180 rot180 \
+    --outfile outputs/anagram.png
+
+
+python region_based_copy.py \
+  --fg_masks masks/rabbit.png masks/duck.png \
+  --fg_prompts "a rabbit" "a duck" \
+  --anagram_prompts "a fish" "a bird" \
+  --transforms rot180 rot180 \
+  --outfile outputs/rabbit_duck_fish_bird.png
+
+
+python region_based_copy.py \
+  --fg_masks masks/apple.png masks/dog.png \
+  --fg_prompts "a realistic photo of a red apple" "a golden retriever lying down" \
+  --anagram_prompts "a delicious donut with red icing" "a lion in a zoo" \
+  --transforms rot180 rot180 \
+  --outfile outputs/apple_dog_donut_lion.png
+
+
+
+python generate_multi_object_anagram.py \
+  --name "rabbit_duck_to_fish_bird" \
+  --save_dir "results/multi_object" \
+  --style "a detailed painting of" \
+  --masks "masks/mask_left.png" "masks/mask_right.png" \
+  --views "identity" "flip" \
+  --prompts \
+    "a rabbit" "a duck" \
+    "a fish" "a bird" \
+  --seed 42 \
+  --num_inference_steps 150 \
+  --guidance_scale 10.0
